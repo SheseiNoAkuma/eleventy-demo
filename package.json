@@ -1,0 +1,20 @@
+{
+  "name": "eleventy-handlebars-sass-example",
+  "version": "1.0.0",
+  "description": "A simple example of Eleventy with Handlebars and Sass compilation.",
+  "main": "index.js",
+  "scripts": {
+    "sass:compile": "node-sass src/assets/css/style.scss _site/assets/css/style.css --output-style compressed",
+    "eleventy": "npx @11ty/eleventy",
+    "eleventy:serve": "npx @11ty/eleventy --serve",
+    "build": "npm run sass:compile && npm run eleventy",
+    "start": "npm run sass:compile && npm run eleventy:serve"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@11ty/eleventy": "^3.1.1",
+    "node-sass": "^9.0.0"
+  }
+}
