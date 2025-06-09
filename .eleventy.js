@@ -1,16 +1,26 @@
-module.exports = function(eleventyConfig) {
-    // Copy the `assets` directory to the output (e.g., `_site/assets`)
-    eleventyConfig.addPassthroughCopy("src/assets");
+module.exports = (eleventyConfig) => {
+    const handlebars = require('handlebars')
+    const handlebarsPlugin = require("@11ty/eleventy-plugin-handlebars");
+    eleventyConfig.addPlugin(handlebarsPlugin, {
+        // Override the `ejs` library instance
+        eleventyLibraryOverride: handlebars,
+    });
 
-    // Set the input directory for Eleventy and specify Handlebars as a template format
+    eleventyConfig.addHandlebarsHelper("jsonPrint", obj => JSON.stringify(obj, null, 2))
+    eleventyConfig.addHandlebarsHelper("addOne", num => (num + 1))
+    eleventyConfig.addHandlebarsHelper("eq", (a, b) => (a === b))
+    eleventyConfig.addHandlebarsHelper("not", exp => !exp)
+
+    eleventyConfig.addPassthroughCopy('assets')
+
     return {
         dir: {
-            input: "src", // <--- THIS IS CRITICAL. It tells Eleventy to look inside the 'src' folder.
-            includes: "_includes",
-            data: "_data",
+            input: './',
+            includes: 'includes',
+            // data: "data",
             output: "_site"
         },
-        // Ensure Eleventy processes .hbs files
-        templateFormats: ["html", "njk", "md", "hbs"] // Add 'hbs' to the list
-    };
-};
+        // templateFormats: ["html", "md", "hbs"],
+        passthroughFileCopy: true
+    }
+}
